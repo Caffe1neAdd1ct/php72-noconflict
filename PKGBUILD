@@ -3,14 +3,14 @@
 
 # this package is heavily based off of the aur php70 package, as well as the php71 package in community.
 
-pkgbase=php71-noconflict
-_pkgbase=${pkgbase%71-noconflict}
+pkgbase=php72-noconflict
+_pkgbase=${pkgbase%72-noconflict}
 _realpkg=${pkgbase%-noconflict}
 pkgname=("${pkgbase}"
-         "${_realpkg}-"{cgi,apache,fpm,embed,phpdbg,dblib,enchant,gd,imap,intl,mcrypt,odbc,pgsql,pspell,snmp,sqlite,tidy,xsl}"-noconflict")
-pkgver=7.1.25
+         "${_realpkg}-"{cgi,apache,fpm,embed,phpdbg,dblib,enchant,gd,imap,intl,odbc,pgsql,pspell,snmp,sqlite,tidy,xsl}"-noconflict")
+pkgver=7.2.13
 pkgrel=1
-pkgdesc="php 7.1 compiled as to not conflict with php 7.2+"
+pkgdesc="php 7.2 compiled as to not conflict with php 7.3+"
 arch=('i686' 'x86_64')
 license=('PHP')
 url='http://www.php.net'
@@ -36,15 +36,15 @@ validpgpkeys=(
 )
 source=("https://php.net/distributions/${_pkgbase}-${pkgver}.tar.xz"{,.asc}
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch' 'php-freetype-2.9.1.patch')
-sha256sums=('0fd8dad1903cd0b2d615a1fe4209f99e53b7292403c8ffa1919c0f4dd1eada88'
-            'SKIP'
-            '258b33b6531b1128d9804c8b608b6013423a421edcf764747042d07e79ec6df3'
-            'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
-            '06f3fa51052d5cf21369e1f6ee0b13365a93bfa05ff672d02f30e8ea4974d815'
-            '3f4625d50cf50ce828c6c23f20e1292a0e009fe2c8922368cddda9d44dbc1cc8'
-            '46a35d04bdef718f4974e732331bbd9988d77de3f4a6f5867a184dd175dfaf3b'
-            'b11c3de747ef222696f5135556d624e3f7f0135a3cb1b06082f1ec8e9b7eeb0a'
-            'f9fe57f809ac13e0043d18b795ef777af3e8c710a83745b37b09db536f683d2a')
+sha512sums=('9df1d43e9cd701db10281811b328721b85cb90c6c8dae1842b0fd848cb5388328918b3040bbad7634b340550d82b93746ea479ed45f4d8a80e8a316e6324115d'
+            'aea6cfe3a767660f4383fb067a3d3c0f7c6fa0ea1670f5306ae4dadc161884c52a94ffd171fb9349de96f0d3d9af91d629d49f9b386de56e1c12333c067596a8' 
+            'df278ee66b86b424fd10770240801414fccd930874ce600d868a130f20780cda9b89a3b3d4f1ebf501dcdc6ea3d62a1429d2690aefb125ad30f6dc193bd6fde5'
+            'eccbe1a0c7b2757ab3c982c871cc591a66ad70f085aaa0d44f93cacacedc7b8fd21b8d0c66471327ff070db1bab1ab83a802f6fa190f33bdd74c134975e3910e'
+            '6d6c8dd77cef948b73c32d03645abd478543acba81827ded19b70dca208636222901e5311a8ac1fd28c21b7c99624e3476e20f73fa6659e7699f39abfcfc8422'
+            '3c78a52af31be5393844765064966e9dfbdd96ca87ae29f923b41999636f4481784b296689914092965b122c6765ed719664a6d090525b4426e07cdd781608a4'
+            'db9e0323f8b78573448119edaf0ace8378df4d76c881d4bd564a165bbee686bebde662e194851131fab193e62a03019873fc8be07ed78e8ad08d577ad261909f'
+            'e5b022ff561c4c2d27965b6e2305807f0c0e05490df017942fa6880731b64e7f695ad808c5bb5259d105b54c4ab275835182c70ffe276bb8ad74e51c5b2a2421'
+            '0a06189f6fb3513cd2dcf9ddb590360475e2dd9a7aa8b13ab66c389c1ed40ce2361681f017cd3c6219f5b40a0a9d4978e57ca3ee4bacb7657db3285136fd2875')
 
 prepare() {
 	cd ${srcdir}/${_pkgbase}-${pkgver}
@@ -106,7 +106,6 @@ build() {
 		--with-ldap=shared \
 		--with-ldap-sasl \
 		--with-libzip \
-		--with-mcrypt=shared \
 		--with-mhash \
 		--with-mysql-sock=/run/mysqld/mysqld.sock \
 		--with-mysqli=shared,mysqlnd \
@@ -178,7 +177,7 @@ build() {
 #	${srcdir}/build/sapi/cli/php -n run-tests.php -n -P {tests,Zend}
 #}
 
-package_php71-noconflict() {
+package_php72-noconflict() {
 	pkgdesc='A general-purpose scripting language that is especially suited to web development'
 	depends=('libxml2' 'curl' 'libzip' 'pcre')
 	backup=("etc/${_realpkg}/php.ini")
@@ -218,7 +217,7 @@ package_php71-noconflict() {
         sed -i "/^\[  --with-php-config=/c \[  --with-php-config=PATH  Path to php-config [${_realpkg/php/php-config}]], ${_realpkg/php/php-config}, no)" ${pkgdir}/usr/lib/${_realpkg}/build/phpize.m4
 }
 
-package_php71-cgi-noconflict() {
+package_php72-cgi-noconflict() {
 	pkgdesc='CGI and FCGI SAPI for PHP'
 	depends=("${pkgbase}")
 	provides=("${_pkgbase}-cgi=${pkgver}")
@@ -227,7 +226,7 @@ package_php71-cgi-noconflict() {
 	make -j1 INSTALL_ROOT=${pkgdir} install-cgi
 }
 
-package_php71-apache-noconflict() {
+package_php72-apache-noconflict() {
 	pkgdesc='Apache SAPI for PHP'
 	depends=("${pkgbase}" 'apache')
 	backup=("etc/httpd/conf/extra/${_realpkg}_module.conf")
@@ -241,7 +240,7 @@ package_php71-apache-noconflict() {
 	install -D -m644 ${srcdir}/apache.conf ${pkgdir}/etc/httpd/conf/extra/${_realpkg}_module.conf
 }
 
-package_php71-fpm-noconflict() {
+package_php72-fpm-noconflict() {
 	pkgdesc='FastCGI Process Manager for PHP'
 	depends=("${pkgbase}" 'systemd')
 	backup=("etc/${_realpkg}/php-fpm.conf" "etc/${_realpkg}/php-fpm.d/www.conf")
@@ -254,7 +253,7 @@ package_php71-fpm-noconflict() {
 	install -D -m644 ${srcdir}/php-fpm.tmpfiles ${pkgdir}/usr/lib/tmpfiles.d/${_realpkg}-fpm.conf
 }
 
-package_php71-embed-noconflict() {
+package_php72-embed-noconflict() {
 	pkgdesc='Embedded PHP SAPI library'
 	depends=("${pkgbase}" 'libsystemd')
 	options=('!emptydirs')
@@ -262,12 +261,12 @@ package_php71-embed-noconflict() {
 
 	cd ${srcdir}/build
 	make -j1 INSTALL_ROOT=${pkgdir} PHP_SAPI=embed install-sapi
-# move libphp7.so to libphp-71.so -- note well: this is to prevent ldconfig
+# move libphp7.so to libphp-72.so -- note well: this is to prevent ldconfig
 # from complaining about libphp7.so not being a symbolic link if another php7 is installed.
-mv ${pkgdir}/usr/lib/libphp7.so ${pkgdir}/usr/lib/libphp-71.so
+mv ${pkgdir}/usr/lib/libphp7.so ${pkgdir}/usr/lib/libphp-72.so
 }
 
-package_php71-phpdbg-noconflict() {
+package_php72-phpdbg-noconflict() {
 	pkgdesc='Interactive PHP debugger'
 	depends=("${pkgbase}")
 	options=('!emptydirs')
@@ -277,7 +276,7 @@ package_php71-phpdbg-noconflict() {
 	make -j1 INSTALL_ROOT=${pkgdir} install-phpdbg
 }
 
-package_php71-dblib-noconflict() {
+package_php72-dblib-noconflict() {
 	pkgdesc='dblib module for PHP'
 	depends=("${pkgbase}" 'freetds')
 	provides=("${_pkgbase}-dblib=${pkgver}")
@@ -285,7 +284,7 @@ package_php71-dblib-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/pdo_dblib.so ${pkgdir}/usr/lib/${_realpkg}/modules/pdo_dblib.so
 }
 
-package_php71-enchant-noconflict() {
+package_php72-enchant-noconflict() {
 	pkgdesc='enchant module for PHP'
 	depends=("${pkgbase}" 'enchant')
 	provides=("${_pkgbase}-enchant=${pkgver}")
@@ -293,7 +292,7 @@ package_php71-enchant-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/enchant.so ${pkgdir}/usr/lib/${_realpkg}/modules/enchant.so
 }
 
-package_php71-gd-noconflict() {
+package_php72-gd-noconflict() {
 	pkgdesc='gd module for PHP'
 	depends=("${pkgbase}" 'gd')
 	provides=("${_pkgbase}-gd=${pkgver}")
@@ -301,7 +300,7 @@ package_php71-gd-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/gd.so ${pkgdir}/usr/lib/${_realpkg}/modules/gd.so
 }
 
-package_php71-imap-noconflict() {
+package_php72-imap-noconflict() {
 	pkgdesc='imap module for PHP'
 	depends=("${pkgbase}" 'c-client')
 	provides=("${_pkgbase}-imap=${pkgver}")
@@ -309,7 +308,7 @@ package_php71-imap-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/imap.so ${pkgdir}/usr/lib/${_realpkg}/modules/imap.so
 }
 
-package_php71-intl-noconflict() {
+package_php72-intl-noconflict() {
 	pkgdesc='intl module for PHP'
 	depends=("${pkgbase}" 'icu')
 	provides=("${_pkgbase}-intl=${pkgver}")
@@ -317,15 +316,15 @@ package_php71-intl-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/intl.so ${pkgdir}/usr/lib/${_realpkg}/modules/intl.so
 }
 
-package_php71-mcrypt-noconflict() {
-	pkgdesc='mcrypt module for PHP'
-	depends=("${pkgbase}" 'libmcrypt' 'libtool')
-	provides=("${_pkgbase}-mcrypt=${pkgver}")
+#package_php72-mcrypt-noconflict() {
+#	pkgdesc='mcrypt module for PHP'
+#	depends=("${pkgbase}" 'libmcrypt' 'libtool')
+#	provides=("${_pkgbase}-mcrypt=${pkgver}")
+#
+#	install -D -m755 ${srcdir}/build/modules/mcrypt.so ${pkgdir}/usr/lib/${_realpkg}/modules/mcrypt.so
+#}
 
-	install -D -m755 ${srcdir}/build/modules/mcrypt.so ${pkgdir}/usr/lib/${_realpkg}/modules/mcrypt.so
-}
-
-package_php71-odbc-noconflict() {
+package_php72-odbc-noconflict() {
 	pkgdesc='ODBC modules for PHP'
 	depends=("${pkgbase}" 'unixodbc')
 	provides=("${_pkgbase}-odbc=${pkgver}")
@@ -334,7 +333,7 @@ package_php71-odbc-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/pdo_odbc.so ${pkgdir}/usr/lib/${_realpkg}/modules/pdo_odbc.so
 }
 
-package_php71-pgsql-noconflict() {
+package_php72-pgsql-noconflict() {
 	pkgdesc='PostgreSQL modules for PHP'
 	depends=("${pkgbase}" 'postgresql-libs')
 	provides=("${_pkgbase}-pgsql=${pkgver}")
@@ -343,7 +342,7 @@ package_php71-pgsql-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/pdo_pgsql.so ${pkgdir}/usr/lib/${_realpkg}/modules/pdo_pgsql.so
 }
 
-package_php71-pspell-noconflict() {
+package_php72-pspell-noconflict() {
 	pkgdesc='pspell module for PHP'
 	depends=("${pkgbase}" 'aspell')
 	provides=("${_pkgbase}-pspell=${pkgver}")
@@ -351,7 +350,7 @@ package_php71-pspell-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/pspell.so ${pkgdir}/usr/lib/${_realpkg}/modules/pspell.so
 }
 
-package_php71-snmp-noconflict() {
+package_php72-snmp-noconflict() {
 	pkgdesc='snmp module for PHP'
 	depends=("${pkgbase}" 'net-snmp')
 	provides=("${_pkgbase}-snmp=${pkgver}")
@@ -359,7 +358,7 @@ package_php71-snmp-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/snmp.so ${pkgdir}/usr/lib/${_realpkg}/modules/snmp.so
 }
 
-package_php71-sqlite-noconflict() {
+package_php72-sqlite-noconflict() {
 	pkgdesc='sqlite module for PHP'
 	depends=("${pkgbase}" 'sqlite')
 	provides=("${_pkgbase}-sqlite=${pkgver}")
@@ -368,7 +367,7 @@ package_php71-sqlite-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/pdo_sqlite.so ${pkgdir}/usr/lib/${_realpkg}/modules/pdo_sqlite.so
 }
 
-package_php71-tidy-noconflict() {
+package_php72-tidy-noconflict() {
 	pkgdesc='tidy module for PHP'
 	depends=("${pkgbase}" 'tidy')
 	provides=("${_pkgbase}-tidy=${pkgver}")
@@ -376,7 +375,7 @@ package_php71-tidy-noconflict() {
 	install -D -m755 ${srcdir}/build/modules/tidy.so ${pkgdir}/usr/lib/${_realpkg}/modules/tidy.so
 }
 
-package_php71-xsl-noconflict() {
+package_php72-xsl-noconflict() {
 	pkgdesc='xsl module for PHP'
 	depends=("${pkgbase}" 'libxslt')
 	provides=("${_pkgbase}-xsl=${pkgver}")
