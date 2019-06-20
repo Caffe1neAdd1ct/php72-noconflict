@@ -14,4 +14,10 @@ There are suffixed installs for php56, php70 and php71. Arch linux recently move
 
 Use this at your own risk, no warranty or fitness for purpose to be found here.
 
+## Deprecated
+
+Use AUR https://aur.archlinux.org/packages/php72/
+
+Has been updated with no-conflict style install away from mainline php
+
   
